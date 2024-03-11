@@ -14,7 +14,7 @@ import produc from '../../public/produc.jpeg';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ChevronDown, X } from 'lucide-react';
-import { Checkbox } from '@radix-ui/react-checkbox';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { CornerDownRight } from 'lucide-react';
 // import { cn } from '@/lib/utils';
@@ -129,38 +129,47 @@ export default function Home() {
           <div className="flex border-t-[2px] border-gray-200/15 pt-[50px]">
             <div className="grid w-[742px]">
               <Card className="border-none h-[500px]">
-                <CardTitle className="text-[20px]">쿠폰/포인트</CardTitle>
-                <CardContent>
+                <CardTitle className="text-[20px] pb-[10px]">쿠폰/포인트</CardTitle>
+                <CardContent className="grid gap-[20px] w-[700px] border-black border-t-2 px-[5px] py-[15px] items-center">
                   <div>
-                    <p>쿠폰</p>
+                    <p className="mb-[10px]">쿠폰</p>
                     <Button className="hidden">
                       <X />
                     </Button>
-                    <Input />
-                    <Button>쿠폰적용</Button>
+                    <div className="flex w-[480px]">
+                      <Input />
+                      <Button>쿠폰적용</Button>
+                    </div>
                   </div>
                   <div>
                     <p>쿠폰 번호</p>
-                    <Input />
-                    <Button>번호확인</Button>
+                    <div className="flex w-[480px]">
+                      <Input />
+                      <Button>번호확인</Button>
+                    </div>
                   </div>
                   <div>
                     <p>포인트</p>
-                    <Input />
-                    <Button>전액사용</Button>
-                    <div>
-                      <p>보유 포인트 2300</p>
-                      <p>2300</p>
+                    <div className="flex w-[480px]">
+                      <Input />
+                      <Button>전액사용</Button>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex gap-[10px] w-[480px]">
+                      <p>보유 포인트</p>
+                      <p className="font-semibold">2300</p>
                     </div>
                     <p>5,000 포인트 이상 보유 및 10,000원 이상 구매시 사용가능</p>
                   </div>
                 </CardContent>
               </Card>
-              <Card className="border-none h-[500px]">
+
+              <Card className="grid gap-[5px] border-none">
                 <CardTitle className="text-[20px]">결제 방법</CardTitle>
-                <CardContent>
-                  <div>
-                    <div>
+                <CardContent className="grid border-black border-t-2 px-[5px] py-[15px] items-center">
+                  <div className="grid gap-[15px] mt-[10px]">
+                    <div className="flex gap-[15px]">
                       <div>
                         <Checkbox />
                         <label>신용카드</label>
@@ -170,7 +179,7 @@ export default function Home() {
                         <label>가상계좌</label>
                       </div>
                     </div>
-                    <div>
+                    <div className="flex gap-[15px]">
                       <div>
                         <Checkbox />
                         <label>무통장 입금</label>
@@ -204,8 +213,10 @@ export default function Home() {
                     <Input placeholder="입금자명 (미입력시 주문자명)" />
                     <p>주문 후 n시간 동안 미입금시 자동 취소됩니다.</p>
                   </div>
-                  <Checkbox />
-                  <label>현금영수증 신청</label>
+                  <div className="flex gap-[15px]">
+                    <Checkbox />
+                    <label>현금영수증 신청</label>
+                  </div>
                 </CardContent>
               </Card>
               <Card className="border-none h-[500px]">
