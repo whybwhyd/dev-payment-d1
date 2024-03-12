@@ -1,11 +1,10 @@
 import { CardContent, CardTitle } from '@/components/ui/card';
 
 interface BillPropType {
-  IsTotalRef: boolean;
   deliveryFee: string;
 }
 export default function Bill(props: BillPropType) {
-  const { IsTotalRef, deliveryFee } = props;
+  const { deliveryFee } = props;
   return (
     <>
       <CardTitle className="text-[20px]">결제 금액</CardTitle>
