@@ -3,44 +3,44 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { X } from 'lucide-react';
-interface CouponPropsType {
+import { propsType } from '@/pages';
+
+interface CouponPropsType extends propsType {
   point: string;
 }
 export default function Coupon(props: CouponPropsType) {
   const { point } = props;
   return (
     <Accordion type="single" defaultValue="item-4" collapsible>
-      <Card className="border-none  w-[700px] h-[500px]">
+      <Card className="border-none  w-[700px]">
         <AccordionItem value="item-4">
           <AccordionTrigger className="mr-[20px]">
             <CardTitle className="text-[20px] pb-[10px]">쿠폰/포인트</CardTitle>
           </AccordionTrigger>
           <AccordionContent>
             <CardContent className="flex gap-[40px] border-black border-t-2 px-[5px] py-[40px]">
-              <label>쿠폰/포인트</label>
+              <p>쿠폰/포인트</p>
               <div className="grid gap-[20px]">
                 <div>
                   <p className="mb-[10px]">쿠폰</p>
-                  <Button className="hidden">
-                    <X />
-                  </Button>
                   <div className="flex gap-[8px] w-[480px]">
-                    <Input className=" bg-gray-100" />
-                    <Button variant="outline">쿠폰적용</Button>
+                    <Input id="coupon" className=" bg-gray-100" placeholder="nn% 할인" />
+                    <Button type="button" variant="outline">
+                      쿠폰적용
+                    </Button>
                   </div>
                 </div>
                 <div>
                   <p>쿠폰 번호</p>
                   <div className="flex gap-[8px] w-[480px]">
-                    <Input className=" bg-gray-100" />
+                    <Input id="couponNumber" className=" bg-gray-100" placeholder="n천원 할인" />
                     <Button variant="outline">번호확인</Button>
                   </div>
                 </div>
                 <div>
                   <p>포인트</p>
                   <div className="flex gap-[8px] w-[480px]">
-                    <Input className=" bg-gray-100" />
+                    <Input id="point" className=" bg-gray-100" placeholder="n천원 할인" />
                     <Button variant="outline">전액사용</Button>
                   </div>
                 </div>

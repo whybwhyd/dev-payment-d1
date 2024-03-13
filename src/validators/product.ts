@@ -5,8 +5,8 @@ import { z } from 'zod';
 // const phoneRegex = /^010\d{8}$/;
 
 export const productSchema = z.object({
-  postService: z.string(),
-  payment: z.string(),
+  postMemo: z.string(),
+  payments: z.string(),
   //   email: z
   //     .string()
   //     .nonempty({ message: '이메일은 필수 입력값입니다.' })

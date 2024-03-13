@@ -1,3 +1,4 @@
+import * as React from 'react';
 import {
   Select,
   SelectContent,
@@ -6,13 +7,12 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@radix-ui/react-select';
+} from '@/components/ui/select';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ChevronDown } from 'lucide-react';
 import { propsType } from '@/pages';
 
 interface PostserviceType extends propsType {
@@ -42,33 +42,36 @@ export default function Postservice(props: PostserviceType) {
                   <Button variant="outline">변경</Button>
                 </div>
                 <FormField
-                  name="postService"
                   control={formControlProp}
+                  name="postMemo"
                   render={({ field }) => (
                     <FormItem>
-                      <FormControl>
-                        <Select {...field}>
-                          <div className="flex justify-items-center gap-[30px]">
-                            <p className="w-[160px]">배송 메모</p>
-                            <div>
-                              <SelectTrigger className="flex border-black">
-                                <SelectValue className="border-black" placeholder="배송 메모를 선택해주세요" />
-                                <ChevronDown />
+                      <Select onValueChange={field.onChange} value={field.value.toString()}>
+                        <div className="flex justify-items-center gap-[30px]">
+                          <p className="w-[160px]">배송 메모</p>
+                          <div>
+                            <FormControl>
+                              <SelectTrigger className="flex">
+                                <SelectValue
+                                  id="postMemo"
+                                  placeholder="배송 메모를 선택해주세요"
+                                  aria-label={field.value}
+                                />
                               </SelectTrigger>
-                              <SelectContent>
-                                <SelectGroup className="grid bg-slate-50 px-[7px]">
-                                  <SelectLabel>배송 메모 선택</SelectLabel>
-                                  <SelectItem value="선택 안 함">선택 안 함</SelectItem>
-                                  <SelectItem value="직접 입력하기">직접 입력하기</SelectItem>
-                                  <SelectItem value="문 앞에 놔주세요">문 앞에 놔주세요</SelectItem>
-                                  <SelectItem value="부재 시 연락부탁드려요">부재 시 연락부탁드려요</SelectItem>
-                                  <SelectItem value="배송 전 미리 연락해 주세요">배송 전 미리 연락해 주세요</SelectItem>
-                                </SelectGroup>
-                              </SelectContent>
-                            </div>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectGroup className="grid px-[7px]">
+                                <SelectLabel>배송 메모 선택</SelectLabel>
+                                <SelectItem value="선택 안 함">선택 안 함</SelectItem>
+                                <SelectItem value="직접 입력하기">직접 입력하기</SelectItem>
+                                <SelectItem value="문 앞에 놔주세요">문 앞에 놔주세요</SelectItem>
+                                <SelectItem value="부재 시 연락부탁드려요">부재 시 연락부탁드려요</SelectItem>
+                                <SelectItem value="배송 전 미리 연락해 주세요">배송 전 미리 연락해 주세요</SelectItem>
+                              </SelectGroup>
+                            </SelectContent>
                           </div>
-                        </Select>
-                      </FormControl>
+                        </div>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
