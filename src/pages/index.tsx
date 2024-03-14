@@ -135,16 +135,9 @@ export default function Home() {
                     {/* 동의 */}
                     <Agreement formControlProp={form.control} />
                   </>
-                  <Popover>
-                    <PopoverTrigger>
-                      <Button type="submit" className="w-[320px] h-[70px] rounded-[8px] text-xl mt-[60px]">
-                        13,520원 결제하기
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent>
-                      <></>
-                    </PopoverContent>
-                  </Popover>
+                  <Button type="submit" className="w-[320px] h-[70px] rounded-[8px] text-xl mt-[60px]">
+                    13,520원 결제하기
+                  </Button>
                 </div>
                 <>
                   {/* 결제 금액 */}
