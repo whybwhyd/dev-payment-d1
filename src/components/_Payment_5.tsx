@@ -3,13 +3,11 @@ import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Checkbox } from '@/components/ui/checkbox';
 import Image from 'next/image';
+import { paymentsLists } from '@/data/_paymentLists';
 import { propsType } from '@/pages';
 
-interface PaymentType extends propsType {
-  paymentsLists: readonly { readonly id: string; readonly label: string }[];
-}
-export default function Payment(props: PaymentType) {
-  const { formControlProp, paymentsLists } = props;
+export default function Payment(props: propsType) {
+  const { formControlProp } = props;
 
   return (
     <Accordion type="single" defaultValue="item-5" collapsible>
@@ -42,7 +40,7 @@ export default function Payment(props: PaymentType) {
                                         id={payment.id}
                                         checked={field.value === payment.id}
                                         onCheckedChange={(checked) => {
-                                          return checked ? field.onChange(payment.id) : field.onChange(undefined);
+                                          return checked ? field.onChange(payment.id) : field.onChange(null);
                                         }}
                                       />
                                     </FormControl>
@@ -69,7 +67,7 @@ export default function Payment(props: PaymentType) {
                                         id={payment.id}
                                         checked={field.value === payment.id}
                                         onCheckedChange={(checked) => {
-                                          return checked ? field.onChange(payment.id) : field.onChange(undefined);
+                                          return checked ? field.onChange(payment.id) : field.onChange(null);
                                         }}
                                       />
                                     </FormControl>

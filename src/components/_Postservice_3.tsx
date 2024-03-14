@@ -17,10 +17,9 @@ import { propsType } from '@/pages';
 
 interface PostserviceType extends propsType {
   address: string;
-  addressMemo: string;
 }
 export default function Postservice(props: PostserviceType) {
-  const { formControlProp, address, addressMemo } = props;
+  const { formControlProp, address } = props;
   return (
     <Accordion type="single" defaultValue="item-3" collapsible>
       <Card className="grid gap-[5px] border-none">

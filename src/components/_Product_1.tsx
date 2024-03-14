@@ -5,8 +5,8 @@ import produce from '../../public/produce.jpeg';
 
 interface ProductType {
   productName: string;
-  productNumber: string;
-  productPrice: string;
+  productNumber: number;
+  productPrice: number;
 }
 export default function Product(props: ProductType) {
   const { productName, productNumber, productPrice } = props;

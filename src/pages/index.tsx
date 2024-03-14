@@ -17,6 +17,9 @@ import Bill from '@/components/_Bill_7';
 import { MockUpData } from '@/data/_MockUpData';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useRecoilState } from 'recoil';
+import { orderFormState } from '@/recoil/orderFormState';
 
 export type ProductInput = z.infer<typeof productSchema>;
 
@@ -33,13 +36,13 @@ export default function Home() {
     phoneNumber,
     email,
     address,
-    addressMemo,
     point,
+    coupon,
     deliveryFee,
   } = MockUpData.data[0];
-
   const totalDivRef = useRef<HTMLDivElement | null>(null);
   const [IsTotalRef, setIsTotalRef] = useState(false);
+  const [order, setOrder] = useRecoilState(orderFormState);
 
   // totalDivRef가 페이지 맨 위에 닿았을 때 relative => fixed 로 변환
   const onScroll = () => {
@@ -61,56 +64,40 @@ export default function Home() {
     };
   }, [IsTotalRef]);
 
-  const paymentsLists = [
-    {
-      id: '신용카드',
-      label: '신용카드',
-    },
-    {
-      id: '가상계좌',
-      label: '가상계좌',
-    },
-    {
-      id: '무통장 입금',
-      label: '무통장 입금',
-    },
-    {
-      id: '핸드폰 결제',
-      label: '핸드폰 결제',
-    },
-    {
-      id: '카카오페이',
-      label: 'kakaoPay',
-    },
-    {
-      id: '네이버페이',
-      label: 'naverPay',
-    },
-    {
-      id: '토스페이',
-      label: 'tossPay',
-    },
-  ] as const;
-
   const form = useForm<ProductInput>({
     resolver: zodResolver(productSchema),
     defaultValues: {
       postMemo: '',
       payments: '',
+      agreement: [],
     },
   });
 
   function onSubmit(data: ProductInput) {
-    // const { password, confirmPassword } = data;
-    // if (password !== confirmPassword) {
-    //   toast({
-    //     title: '비밀번호가 일치하지 않습니다.',
-    //     variant: 'destructive',
-    //     duration: 1000,
-    //   });
-    //   return;
-    // }
-    console.log(data);
+    const { agreement, postMemo, payments } = data;
+    if (agreement.length < 3) {
+      alert('개인정보 수집/제공에 동의해주세요');
+      return;
+    }
+    const BuyData = [
+      productName,
+      productNumber,
+      productPrice,
+      customer,
+      phoneNumber,
+      email,
+      address,
+      postMemo,
+      point,
+      coupon,
+      payments,
+      deliveryFee,
+      agreement,
+      agreement,
+      postMemo,
+      payments,
+    ];
+    alert(BuyData);
   }
 
   return (
@@ -130,7 +117,7 @@ export default function Home() {
               </>
               <>
                 {/* 배송자 정보 */}
-                <Postservice formControlProp={form.control} address={address} addressMemo={addressMemo} />
+                <Postservice formControlProp={form.control} address={address} />
               </>
             </div>
             <div ref={totalDivRef}>
@@ -138,19 +125,26 @@ export default function Home() {
                 <div className="grid justify-start justify-items-center w-[742px] pb-[300px]">
                   <>
                     {/* 쿠폰/포인트 */}
-                    <Coupon point={point} />
+                    <Coupon point={point} productPrice={productPrice} />
                   </>
                   <>
                     {/* 결제 방법 */}
-                    <Payment formControlProp={form.control} paymentsLists={paymentsLists} />
+                    <Payment formControlProp={form.control} />
                   </>
                   <>
                     {/* 동의 */}
-                    <Agreement />
+                    <Agreement formControlProp={form.control} />
                   </>
-                  <Button type="submit" className="w-[320px] h-[70px] rounded-[8px] text-xl mt-[60px]">
-                    13,520원 결제하기
-                  </Button>
+                  <Popover>
+                    <PopoverTrigger>
+                      <Button type="submit" className="w-[320px] h-[70px] rounded-[8px] text-xl mt-[60px]">
+                        13,520원 결제하기
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      <></>
+                    </PopoverContent>
+                  </Popover>
                 </div>
                 <>
                   {/* 결제 금액 */}
@@ -161,7 +155,7 @@ export default function Home() {
                           ? 'fixed top-[20px] grid w-[300px] border-none'
                           : 'relative grid w-[300px] border-none',
                       )}>
-                      <Bill deliveryFee={deliveryFee} />
+                      <Bill deliveryFee={deliveryFee} productPrice={productPrice} />
                     </Card>
                   </div>
                 </>
