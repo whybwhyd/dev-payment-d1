@@ -20,14 +20,19 @@ import { cn } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useRecoilState } from 'recoil';
 import { orderFormState } from '@/recoil/orderFormState';
+import { nanoid } from 'nanoid';
+import { PaymentWidgetInstance, loadPaymentWidget, ANONYMOUS } from '@tosspayments/payment-widget-sdk';
+import { useQuery } from '@tanstack/react-query';
 
 export type ProductInput = z.infer<typeof productSchema>;
 
 export interface propsType {
   formControlProp: Control<ProductInput>;
 }
-
+const clientKey = 'test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm';
+const customerKey = nanoid();
 export default function Home() {
+  const { data: paymentWidget } = usePaymentWidget(clientKey, customerKey);
   const {
     productName,
     productNumber,
@@ -90,12 +95,10 @@ export default function Home() {
       postMemo,
       point,
       coupon,
-      payments,
       deliveryFee,
       agreement,
       agreement,
       postMemo,
-      payments,
     ];
     alert(BuyData);
   }
@@ -129,15 +132,38 @@ export default function Home() {
                   </>
                   <>
                     {/* 결제 방법 */}
-                    <Payment formControlProp={form.control} />
+                    <Payment />
                   </>
                   <>
                     {/* 동의 */}
                     <Agreement formControlProp={form.control} />
                   </>
-                  <Button type="submit" className="w-[320px] h-[70px] rounded-[8px] text-xl mt-[60px]">
-                    13,520원 결제하기
-                  </Button>
+                  <div className="result wrapper">
+                    <Button
+                      type="submit"
+                      className="w-[320px] h-[70px] rounded-[8px] text-xl mt-[60px]"
+                      style={{ marginTop: '30px' }}
+                      onClick={async () => {
+                        try {
+                          // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
+                          // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
+                          await paymentWidget?.requestPayment({
+                            orderId: nanoid(),
+                            orderName: '토스 티셔츠 외 2건',
+                            customerName: '김토스',
+                            customerEmail: 'customer123@gmail.com',
+                            customerMobilePhone: '01012341234',
+                            successUrl: `${window.location.origin}/success`,
+                            failUrl: `${window.location.origin}/fail`,
+                          });
+                        } catch (error) {
+                          // 에러 처리하기
+                          console.error(error);
+                        }
+                      }}>
+                      결제하기
+                    </Button>
+                  </div>
                 </div>
                 <>
                   {/* 결제 금액 */}
@@ -159,4 +185,14 @@ export default function Home() {
       </div>
     </div>
   );
+}
+function usePaymentWidget(clientKey: string, customerKey: string) {
+  return useQuery({
+    queryKey: ['payment-widget', clientKey, customerKey],
+    queryFn: () => {
+      // ------  결제위젯 초기화 ------
+      // @docs https://docs.tosspayments.com/reference/widget-sdk#sdk-설치-및-초기화
+      return loadPaymentWidget(clientKey, customerKey);
+    },
+  });
 }
